@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>be volunt - Volunteer & Donation Platform</title>
+    <style>
+        :root {
+            --primary: #3498db;
+            --primary-dark: #2980b9;
+            --secondary: #e74c3c;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --text: #495057;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+        }
+
+        .btn-secondary:hover {
+            background-color: #c0392b;
+        }
+
+        .mobile-menu {
+            display: none;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 150px 0 100px;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('vol.png')center/cover;
+            color: white;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 40px;
+        }
+
+        .hero-btns {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        /* About Section */
+        .about {
+            padding: 80px 0;
+            background-color: var(--light);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: var(--dark);
+            margin-bottom: 20px;
+        }
+
+        .section-header p {
+            max-width: 700px;
+            margin: 0 auto;
+            color: var(--text);
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .about-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .about-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .about-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .about-card-content {
+            padding: 20px;
+        }
+
+        .about-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        /* Campaigns Section */
+        .campaigns {
+            padding: 80px 0;
+        }
+
+        .campaign-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .campaign-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .campaign-img {
+            width: 100%;
+            height: 200px;
+            background: url('edu.jpeg') center/cover;
+        }
+        .campaign1-img {
+            width: 100%;
+            height: 200px;
+            background: url('h20.webp') center/cover;
+        }
+        .campaign2-img {
+            width: 100%;
+            height: 200px;
+            background: url('food.jpg') center/cover;
+        }
+        .campaign-content {
+            padding: 20px;
+        }
+
+        .campaign-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .campaign-meta {
+            display: flex;
+            justify-content: space-between;
+            margin: 15px 0;
+            font-size: 0.9rem;
+        }
+
+        .campaign-progress {
+            margin: 15px 0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: var(--primary);
+            width: 75%;
+        }
+
+        /* Volunteer Section */
+        .volunteer {
+            padding: 80px 0;
+            background-color: var(--light);
+        }
+
+        .volunteer-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .volunteer-form {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .testimonial-container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .testimonial {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+            display: none;
+        }
+
+        .testimonial.active {
+            display: block;
+        }
+
+        .testimonial img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 20px;
+        }
+
+        .testimonial p {
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+
+        .testimonial h4 {
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .testimonial-nav {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .testimonial-nav button {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--primary);
+            cursor: pointer;
+            margin: 0 10px;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 80px 0;
+            background-color: var(--light);
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .contact-info {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .info-item i {
+            color: var(--primary);
+            margin-right: 15px;
+            font-size: 1.2rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 50px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            transition: background-color 0.3s;
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        /* Media Queries */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background: white;
+                box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+                padding: 20px;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links li {
+                margin: 10px 0;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .volunteer-content {
+                grid-template-columns: 1fr;
+            }
+
+            
+            
+            -btns {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="#" class="logo">Be<span>Volunt</span></a>
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#campaigns">Campaigns</a></li>
+                    <li><a href="#volunteer">Volunteer</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <a href="#donate" class="btn btn-secondary">Donate Now</a>
+                <div class="mobile-menu">≡</div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <h1>Make a Difference Today</h1>
+            <p>Join our community of volunteers and donors to help create positive change in the world. Together, we can make a difference one step at a time.</p>
+            <div class="hero-btns">
+                <a href="#volunteer" class="btn">Become a Volunteer</a>
+                <a href="#donate" class="btn btn-secondary">Donate Now</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="section-header">
+                <h2>About Our Mission</h2>
+                <p>We are dedicated to creating sustainable change through volunteer efforts and strategic donations that address the root causes of social issues.</p>
+            </div>
+            <div class="about-content">
+                <div class="about-card">
+                    <img src="/api/placeholder/400/200" alt="Our Vision">
+                    <div class="about-card-content">
+                        <h3>Our Vision</h3>
+                        <p>We envision a world where everyone has access to basic necessities, quality education, and opportunities to thrive regardless of their background.</p>
+                    </div>
+                </div>
+                <div class="about-card">
+                    <img src="/api/placeholder/400/200" alt="Our Impact">
+                    <div class="about-card-content">
+                        <h3>Our Impact</h3>
+                        <p>Since our founding, we've helped over 50,000 people across 20 communities with clean water, education, healthcare, and emergency relief.</p>
+                    </div>
+                </div>
+                <div class="about-card">
+                    <img src="/api/placeholder/400/200" alt="Our Values">
+                    <div class="about-card-content">
+                        <h3>Our Values</h3>
+                        <p>We believe in transparency, community involvement, sustainable solutions, and respecting the dignity of those we serve.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Campaigns Section -->
+    <section id="campaigns" class="campaigns">
+        <div class="container">
+            <div class="section-header">
+                <h2>Current Campaigns</h2>
+                <p>Join our ongoing initiatives to make a real impact in communities that need it most.</p>
+            </div>
+            <div class="campaign-grid">
+                <div class="campaign-card">
+                    <div class="campaign1-img"></div>
+                    <div class="campaign-content">
+                        <h3>Clean Water Project</h3>
+                        <p>Providing clean drinking water to rural communities facing water scarcity and contamination issues.</p>
+                        <div class="campaign-meta">
+                            <span>Goal: 2,00,000/-</span>
+                            <span>Raised: 1,37,500/-</span>
+                        </div>
+                        <div class="campaign-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 75%;"></div>
+                            </div>
+                        </div>
+                        <a href="#" class="btn">Donate Now</a>
+                    </div>
+                </div>
+                <div class="campaign-card">
+                    <div class="campaign-img"></div>
+                    <div class="campaign-content">
+                        <h3>Education For All</h3>
+                        <p>Supporting schools with resources, infrastructure, and teacher training to provide quality education.</p>
+                        <div class="campaign-meta">
+                            <span>Goal: 4,50,000/-</span>
+                            <span>Raised: 2,85,000/-</span>
+                        </div>
+                        <div class="campaign-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 60%;"></div>
+                            </div>
+                        </div>
+                        <a href="#" class="btn">Donate Now</a>
+                    </div>
+                </div>
+                <div class="campaign-card">
+                    <div class="campaign2-img"></div>
+                    <div class="campaign-content">
+                        <h3>Food Bank Drive</h3>
+                        <p>Collecting and distributing food to vulnerable families and individuals facing food insecurity.</p>
+                        <div class="campaign-meta">
+                            <span>Goal: 50,000/-</span>
+                            <span>Raised: 28,750/-</span>
+                        </div>
+                        <div class="campaign-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 75%;"></div>
+                            </div>
+                        </div>
+                        <a href="#" class="btn">Donate Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Volunteer Section -->
+    <section id="volunteer" class="volunteer">
+        <div class="container">
+            <div class="section-header">
+                <h2>Become a Volunteer</h2>
+                <p>Join our team of dedicated volunteers making a difference in communities around the world.</p>
+            </div>
+            <div class="volunteer-content">
+                <div>
+                    <h3>Why Volunteer With Us?</h3>
+                    <p>As a volunteer with HandsUnited, you'll have the opportunity to:</p>
+                    <ul>
+                        <li>Make a tangible difference in people's lives</li>
+                        <li>Develop new skills and gain valuable experience</li>
+                        <li>Meet like-minded individuals and build connections</li>
+                        <li>Participate in a variety of projects based on your interests and skills</li>
+                        <li>Receive proper training and support throughout your volunteer journey</li>
+                    </ul>
+                    <p>We have both local and international volunteer opportunities available, ranging from one-day events to long-term commitments.</p>
+                </div>
+                <div class="volunteer-form">
+                    <h3>Volunteer Application</h3>
+                    <form id="volunteerForm">
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone">
+                        </div>
+                        <div class="form-group">
+                            <label for="interest">Area of Interest</label>
+                            <select id="interest" required>
+                                <option value="">Select an option</option>
+                                <option value="education">Education</option>
+                                <option value="health">Healthcare</option>
+                                <option value="environment">Environment</option>
+                                <option value="food">Food Distribution</option>
+                                <option value="fundraising">Fundraising</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="availability">Availability</label>
+                            <select id="availability" required>
+                                <option value="">Select an option</option>
+                                <option value="weekdays">Weekdays</option>
+                                <option value="weekends">Weekends</option>
+                                <option value="both">Both Weekdays and Weekends</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Why do you want to volunteer?</label>
+                            <textarea id="message"></textarea>
+                        </div>
+                        <button type="submit" class="btn">Submit Application</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <div class="container">
+            <div class="section-header">
+                <h2>Volunteer Stories</h2>
+                <p>Hear from our volunteers about their experiences and the impact they've made.</p>
+            </div>
+            <div class="testimonial-container">
+                <div class="testimonial active">
+                    <img src="/api/placeholder/200/200" alt="Sarah Johnson">
+                    <p>"Volunteering with HandsUnited has been one of the most rewarding experiences of my life. I've seen firsthand how our work transforms communities and builds lasting relationships."</p>
+                    <h4>Sarah Johnson</h4>
+                    <span>Education Team Volunteer, 2 years</span>
+                </div>
+                <div class="testimonial">
+                    <img src="/api/placeholder/200/200" alt="David Chen">
+                    <p>"I joined as a weekend volunteer but found the work so meaningful that I now dedicate much more time. The team is supportive, and the impact we make is truly tangible."</p>
+                    <h4>David Chen</h4>
+                    <span>Water Project Coordinator, 3 years</span>
+                </div>
+                <div class="testimonial">
+                    <img src="/api/placeholder/200/200" alt="Maria Rodriguez">
+                    <p>"The food distribution program has allowed me to connect with my community in ways I never imagined. Every week, I see how our small actions make a big difference for families in need."</p>
+                    <h4>Maria Rodriguez</h4>
+                    <span>Food Bank Volunteer, 1 year</span>
+                </div>
+                <div class="testimonial-nav">
+                    <button id="prevBtn">&#8592;</button>
+                    <button id="nextBtn">&#8594;</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Donation Section -->
+    <section id="donate" class="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2>Make a Donation</h2>
+                <p>Your contribution helps us continue our mission and impact more lives.</p>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>Donation Options</h3>
+                    <div class="info-item">
+                        <div>
+                            <h4>One-Time Donation</h4>
+                            <p>Make an immediate impact with a one-time contribution of any amount.</p>
+                            <a href="#" class="btn">Donate Now</a>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div>
+                            <h4>Monthly Giving</h4>
+                            <p>Join our community of monthly donors providing sustainable support for our programs.</p>
+                            <a href="#" class="btn">Become a Monthly Donor</a>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div>
+                            <h4>Corporate Partnerships</h4>
+                            <p>Explore opportunities for your company to partner with us in making a difference.</p>
+                            <a href="#" class="btn">Contact Us</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-info">
+                    <h3>Where Your Money Goes</h3>
+                    <p>We're committed to transparency and responsible stewardship of donations:</p>
+                    <ul>
+                        <li>75% directly funds our programs and services</li>
+                        <li>15% supports administrative costs</li>
+                        <li>10% goes toward fundraising efforts</li>
+                    </ul>
+                    <p>All donations are tax-deductible. We provide financial reports and updates to our donors to show the impact of their contributions.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2>Contact Us</h2>
+                <p>Have questions or want to get involved? Reach out to our team.</p>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>Get in Touch</h3>
+                    <div class="info-item">
+                        <i>📍</i>
+                        <div>
+                            <h4>Address</h4>
+                            <p>123 Community Way, Helping City, HC 12345</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i>📞</i>
+                        <div>
+                            <h4>Phone</h4>
+                            <p>(555) 123-4567</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i>✉️</i>
+                        <div>
+                            <h4>Email</h4>
+                            <p>info@handsunited.org</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i>🕒</i>
+                        <div>
+                            <h4>Office Hours</h4>
+                            <p>Monday - Friday: 9:00 AM - 5:00 PM</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="volunteer-form">
+                    <h3>Send Us a Message</h3>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="contactName">Full Name</label>
+                            <input type="text" id="contactName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contactEmail">Email Address</label>
+                            <input type="email" id="contactEmail" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <input type="text" id="subject">
+                        </div>
+                        <div class="form-group">
+                            <label for="contactMessage">Message</label>
+                            <textarea id="contactMessage" required></textarea>
+                        </div>
+                        <button type="submit" class="btn">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>HandsUnited</h3>
+                    <p>Making a difference through community service, volunteer work, and strategic donations.</p>
+                    <div class="social-links">
+                        <a href="#"><span>f</span></a>
+                        <a href="#"><span>t</span></a>
+                        <a href="#"><span>in</span></a>
+                        <a href="#"><span>ig</span></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#campaigns">Campaigns</a></li>
+                        <li><a href="#volunteer">Volunteer</a></li>
+                        <li><a href="#donate">Donate</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Programs</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Clean Water Initiative</a></li>
+                        <li><a href="#">Education for All</a></li>
+                        <li><a href="#">Community Food Bank</a></li>
+                        <li><a href="#">Healthcare Outreach</a></li>
+                        <li><a href="#">Emergency Relief</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Newsletter</h3>
+                    <p>Subscribe to our newsletter to receive updates about our work and upcoming events.</p>
+                    <form>
+                        <div class="form-group">
+                            <input type="email" placeholder="Your Email Address" required>
+                        </div>
+                        <button type="submit" class="btn">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 HandsUnited. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const navLinks = document.querySelector('.nav-links');
+
+        mobileMenu.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Smooth Scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: target
