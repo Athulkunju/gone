@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campaign Donation Page</title>
+    <style>
+        :root {
+            --primary-color: #4a6fa5;
+            --secondary-color: #6a8caf;
+            --accent-color: #e76f51;
+            --light-color: #f8f9fa;
+            --dark-color: #333;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f4f7f9;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 30px 0;
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .campaign-section {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 40px 0;
+            gap: 30px;
+        }
+        
+        .campaign-details {
+            flex: 1 1 600px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+        
+        .campaign-details h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        
+        .campaign-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .donation-sidebar {
+            flex: 1 1 400px;
+        }
+        
+        .donation-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .progress-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .progress-container {
+            width: 100%;
+            height: 20px;
+            background-color: #e9ecef;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background-color: var(--accent-color);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+        
+        .donation-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .donation-form input, .donation-form select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        .donation-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .amount-btn {
+            flex: 1;
+            background-color: var(--light-color);
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .amount-btn:hover, .amount-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        .donate-btn {
+            width: 100%;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .donate-btn:hover {
+            background-color: #d05a3f;
+        }
+        
+        .donors-list {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+        
+        .donors-list h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        
+        .donor {
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+            padding: 15px 0;
+        }
+        
+        .donor-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+        
+        .donor-info {
+            flex: 1;
+        }
+        
+        .donor-name {
+            font-weight: 600;
+        }
+        
+        .donor-amount {
+            font-weight: 600;
+            color: var(--accent-color);
+        }
+        
+        .donor-date {
+            color: #777;
+            font-size: 14px;
+        }
+        
+        .thankyou-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 999;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 40px;
+            border-radius: 10px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+        }
+        
+        .modal-content h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        
+        .close-modal {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 12px 25px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .campaign-section {
+                flex-direction: column;
+            }
+            
+            .donation-buttons {
+                flex-wrap: wrap;
+            }
+            
+            .amount-btn {
+                flex: 1 1 45%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Help Us Make a Difference</h1>
+            <p>Join our mission to create positive change in our community</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="campaign-section">
+            <div class="campaign-details">
+                <h2>Our Campaign</h2>
+                <img src="C:\Users\ASUS\Desktop\volen\edu.jpeg" alt="Campaign image" class="campaign-image">
+                <p>We are raising funds to support local education initiatives that provide resources, mentorship, and opportunities for underprivileged students in our community.</p>
+                <br>
+                <p>Your donation will help us:</p>
+                <ul>
+                    <li>Purchase essential school supplies for students in need</li>
+                    <li>Fund after-school tutoring programs</li>
+                    <li>Provide technology resources for remote learning</li>
+                    <li>Create scholarships for promising students</li>
+                </ul>
+                <br>
+                <h3>Campaign Timeline</h3>
+                <p>This campaign will run until December 31, 2025. Our goal is to raise 4,50,000 to fund our initiatives for the upcoming school year.</p>
+                <br>
+                <h3>About Our Organization</h3>
+                <p>We are a registered non-profit organization dedicated to improving educational outcomes for students from disadvantaged backgrounds. Our team consists of educators, community leaders, and passionate volunteers who believe in the power of education to transform lives.</p>
+            </div>
+            
+            <div class="donation-sidebar">
+                <div class="donation-card">
+                    <h2>Support Our Cause</h2>
+                    <div class="progress-stats">
+                        <span><span id="current-amount">2,85,000</span> raised</span>
+                        <span>Goal: <span id="goal-amount">4,50,000</span></span>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-bar" id="donation-progress" style="width: 55%;"></div>
+                    </div>
+                    <p><span id="donor-count">143</span> people have donated</p>
+                    
+                    <form class="donation-form" id="donation-form">
+                        <div class="donation-buttons">
+                            <button type="button" class="amount-btn" data-amount="250">250/-</button>
+                            <button type="button" class="amount-btn" data-amount="500">500/-</button>
+                            <button type="button" class="amount-btn active" data-amount="1000">1000/-</button>
+                            <button type="button" class="amount-btn" data-amount="2500">2500/-</button>
+                        </div>
+                        
+                        <label for="custom-amount">Custom Amount ($)</label>
+                        <input type="number" id="custom-amount" placeholder="Enter amount" value="100">
+                        
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" placeholder="Your Name">
+                        
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" placeholder="your.email@example.com">
+                        
+                        <label for="payment-method">Payment Method</label>
+                        <select id="payment-method">
+                            <option value="credit-card">Credit Card</option>
+                            <option value="paypal">Google Pay</option>
+                            <option value="bank-transfer">Bank Transfer</option>
+                        </select>
+                        
+                        <a><button type="submit" class="donate-btn">Donate Now</button></a>
+                    </form>
+                </div>
+                
+                <div class="donors-list">
+                    <h2>Recent Donors</h2>
+                    <div class="donor">
+                        <div class="donor-avatar">JD</div>
+                        <div class="donor-info">
+                            <div class="donor-name">John Doe</div>
+                            <div class="donor-date">April 24, 2025</div>
+                        </div>
+                        <div class="donor-amount">2,500/-</div>
+                    </div>
+                    <div class="donor">
+                        <div class="donor-avatar">SM</div>
+                        <div class="donor-info">
+                            <div class="donor-name">Sarah Miller</div>
+                            <div class="donor-date">April 23, 2025</div>
+                        </div>
+                        <div class="donor-amount">10,000/-</div>
+                    </div>
+                    <div class="donor">
+                        <div class="donor-avatar">RJ</div>
+                        <div class="donor-info">
+                            <div class="donor-name">Robert Johnson</div>
+                            <div class="donor-date">April 22, 2025</div>
+                        </div>
+                        <div class="donor-amount">7,500/-</div>
+                    </div>
+                    <div class="donor">
+                        <div class="donor-avatar">LP</div>
+                        <div class="donor-info">
+                            <div class="donor-name">Laura Parker</div>
+                            <div class="donor-date">April 21, 2025</div>
+                        </div>
+                        <div class="donor-amount">25,000/-</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="thankyou-modal" id="thankyou-modal">
+        <div class="modal-content">
+            <h2>Thank You For Your Donation!</h2>
+            <p>Your generous contribution of $<span id="donated-amount">100</span> will help make a real difference in our community.</p>
+            <p>A receipt has been sent to your email.</p>
+            <button class="close-modal" id="close-modal">Close</button>
+        </div>
+    </div>
+    
+    <script>
+        // Select DOM elements
+        const donationForm = document.getElementById('donation-form');
+        const amountButtons = document.querySelectorAll('.amount-btn');
+        const customAmountInput = document.getElementById('custom-amount');
+        const thankyouModal = document.getElementById('thankyou-modal');
+        const closeModalBtn = document.getElementById('close-modal');
+        const donatedAmountSpan = document.getElementById('donated-amount');
+        const currentAmountSpan = document.getElementById('current-amount');
+        const donorCountSpan = document.getElementById('donor-count');
+        const progressBar = document.getElementById('donation-progress');
+        
+        // Campaign stats
+        let currentAmount = 27500;
+        let goalAmount = 50000;
+        let donorCount = 143;
+        
+        // Amount button selection
+        amountButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remove active class from all buttons
+                amountButtons.forEach(b => b.classList.remove('active'));
+                
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                // Set the custom amount input to match the button
+                customAmountInput.value = this.dataset.amount;
+            });
+        });
+        
+        // Custom amount input handler
+        customAmountInput.addEventListener('input', function() {
+            // Remove active class from all buttons when custom amount changes
+            amountButtons.forEach(btn => btn.classList.remove('active'));
+            
+            // If the custom amount matches a button amount, mark that button active
+            const amount = parseInt(this.value);
+            amountButtons.forEach(btn => {
+                if (parseInt(btn.dataset.amount) === amount) {
+                    btn.classList.add('active');
+                }
+            });
+        });
+        
+        // Form submission
+        donationForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const nameInput = document.getElementById('name');
+            const emailInput = document.getElementById('email');
+            const donationAmount = parseInt(customAmountInput.value);
+            
+            // Simple validation
+            if (!nameInput.value.trim()) {
+                alert('Please enter your name');
+                return;
+            }
+            
+            if (!emailInput.value.trim() || !emailInput.value.includes('@')) {
+                alert('Please enter a valid email address');
+                return;
+            }
+            
+            if (isNaN(donationAmount) || donationAmount <= 0) {
+                alert('Please enter a valid donation amount');
+                return;
+            }
+            
+            // Update campaign stats
+            currentAmount += donationAmount;
+            donorCount++;
+            
+            // Update display
+            currentAmountSpan.textContent = currentAmount.toLocaleString();
+            donorCountSpan.textContent = donorCount;
+            
+            // Update progress bar
+            const progressPercentage = Math.min((currentAmount / goalAmount) * 100, 100);
+            progressBar.style.width = progressPercentage + '%';
+            
+            // Show thank you modal
+            donatedAmountSpan.textContent = donationAmount;
+            thankyouModal.style.display = 'flex';
+            
+            // Reset form
+            donationForm.reset();
+            customAmountInput.value = '100';
+            amountButtons.forEach(btn => btn.classList.remove('active'));
+            document.querySelector('[data-amount="100"]').classList.add('active');
+        });
+        
+        // Close modal
+        closeModalBtn.addEventListener('click', function() {
+            thankyouModal.style.display = 'none';
+        });
+        
+        // Close modal if clicking outside content
+        thankyouModal.addEventListener('click', function(e) {
+            if (e.target === thankyouModal) {
+                thankyouModal.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
